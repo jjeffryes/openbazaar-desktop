@@ -8,7 +8,7 @@ import Moderator from '../../../models/profile/Moderator';
 import baseVw from '../../baseVw';
 import languages from '../../../data/languages';
 import { getTranslatedCurrencies } from '../../../data/currencies';
-import { formatPrice } from '../../../utils/currency';
+import { formatPrice, integerToDecimal } from '../../../utils/currency';
 
 export default class extends baseVw {
   constructor(options = {}) {
@@ -175,6 +175,7 @@ export default class extends baseVw {
           terms: this.moderator.max.termsLength,
         },
         formatPrice,
+        integerToDecimal,
         ...moderator.toJSON(),
       }));
 

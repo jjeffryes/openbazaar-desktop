@@ -3,6 +3,7 @@ import loadTemplate from '../utils/loadTemplate';
 import app from '../app';
 import Profile from '../models/profile/Profile';
 import { launchModeratorDetailsModal } from '../utils/modalManager';
+import { formatPrice, integerToDecimal } from '../utils/currency';
 
 
 export default class extends BaseVw {
@@ -53,6 +54,8 @@ export default class extends BaseVw {
       this.$el.html(t({
         cardState: this.cardState,
         displayCurrency: app.settings.get('localCurrency'),
+        formatPrice,
+        integerToDecimal,
         ...this.model.toJSON(),
       }));
 

@@ -45,7 +45,8 @@
       <div class="rowDivV clrBr"></div>
       <div class="flexExpand">
         <div class="flexCol flexCent">
-          <% var amount = ob.convertAndFormatCurrency(ob.modInfo.fee.fixedFee.amount, ob.modInfo.fee.fixedFee.currencyCode, ob.displayCurrency) %>
+          <% var amount = ob.integerToDecimal(ob.modInfo.fee.fixedFee.amount, ob.modInfo.fee.fixedFee.currencyCode === 'BTC');
+             amount = ob.convertAndFormatCurrency(amount, ob.modInfo.fee.fixedFee.currencyCode, ob.displayCurrency); %>
           <div><%= ob.polyT(`moderatorCard.${ob.modInfo.fee.feeType}`, { amount: amount, percentage: ob.modInfo.fee.percentage }) %></div>
           <div class="tx5b clrT2"><%= ob.polyT('moderatorDetails.serviceCharge') %></div>
         </div>

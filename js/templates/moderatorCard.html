@@ -13,7 +13,8 @@
     <div class="flex snipKids gutterH tx5">
       <div class="flexNoShrink">👍 XX<% // placeholder for reputation %> </div>
       <div class="flexNoShrink">
-        <% var amount = ob.convertAndFormatCurrency(ob.modInfo.fee.fixedFee.amount, ob.modInfo.fee.fixedFee.currencyCode, ob.displayCurrency) %>
+        <% var amount = ob.integerToDecimal(ob.modInfo.fee.fixedFee.amount, ob.modInfo.fee.fixedFee.currencyCode === 'BTC');
+           amount = ob.convertAndFormatCurrency(amount, ob.modInfo.fee.fixedFee.currencyCode, ob.displayCurrency); %>
         <%= ob.polyT(`moderatorCard.${ob.modInfo.fee.feeType}`, { amount: amount, percentage: ob.modInfo.fee.percentage }) %>
       </div>
       <div>📍 <%= ob.location || ob.polyT('userPage.noLocation') %></div>

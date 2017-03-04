@@ -2,6 +2,7 @@ import loadTemplate from '../../utils/loadTemplate';
 import app from '../../app';
 import { followedByYou, followUnfollow } from '../../utils/follow';
 import BaseModal from './BaseModal';
+import { formatPrice, integerToDecimal } from '../../utils/currency';
 
 export default class extends BaseModal {
   constructor(options = {}) {
@@ -69,6 +70,8 @@ export default class extends BaseModal {
       this.$el.html(t({
         followedByYou: this.followedByYou,
         displayCurrency: app.settings.get('localCurrency'),
+        formatPrice,
+        integerToDecimal,
         ...this.model.toJSON(),
       }));
       super.render();
