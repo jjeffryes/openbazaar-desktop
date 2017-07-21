@@ -42,6 +42,8 @@ export default class extends baseVw {
         this.processTerm(this.term);
       }
     });
+
+    this.initialSearch = true;
   }
 
   className() {
@@ -84,7 +86,7 @@ export default class extends baseVw {
     if (this.callSearch) this.callSearch.abort();
 
     // initial render to show the loading spinner
-    this.render();
+    if (this.initialSearch) this.render();
 
     // query the search provider
     this.callSearch = $.get({
@@ -94,7 +96,12 @@ export default class extends baseVw {
         .done((data, status, xhr) => {
         // make sure minimal data is present
           if (data.name && data.links) {
-            this.render(data, searchURL);
+            if (this.initialSearch) {
+              this.initialSearch = false;
+              this.render(data, searchURL);
+            } else {
+              this.createResults(data, searchURL);
+            }
           } else {
             this.showSearchError(xhr);
             this.render({}, searchURL);
@@ -145,10 +152,16 @@ export default class extends baseVw {
   }
 
   createResults(data, searchURL) {
-    this.resultsCol = new ResultsCol();
+    if (this.resultsCol) {
+      this.resultsCol.reset();
+    } else {
+      this.resultsCol = new ResultsCol();
+    }
     this.resultsCol.add(this.resultsCol.parse(data));
 
-    const resultsView = this.createChild(Results, {
+    if (this.resultsView) this.resultsView.remove();
+
+    this.resultsView = this.createChild(Results, {
       searchURL,
       total: data.results ? data.results.total : 0,
       morePages: data.results ? data.results.morePages : false,
@@ -157,10 +170,10 @@ export default class extends baseVw {
       initCol: this.resultsCol,
     });
 
-    this.$resultsWrapper.html(resultsView.render().el);
+    this.$resultsWrapper.html(this.resultsView.render().el);
 
-    this.listenTo(resultsView, 'searchError', (xhr) => this.showSearchError(xhr));
-    this.listenTo(resultsView, 'loadingPage', () => this.scrollToTop());
+    this.listenTo(this.resultsView, 'searchError', (xhr) => this.showSearchError(xhr));
+    this.listenTo(this.resultsView, 'loadingPage', () => this.scrollToTop());
   }
 
   clickSearchBtn() {
