@@ -181,6 +181,12 @@ function createWindow() {
         shell.openExternal('https://docs.openbazaar.org');
       },
     },
+    {
+      label: 'Support',
+      click() {
+        shell.openExternal('https://openbazaar.org/support');
+      },
+    },
   ];
 
   if (isBundledApp) {
@@ -378,7 +384,8 @@ function createWindow() {
   });
 
   // put logic here to set tray icon based on OS
-  const osTrayIcon = 'openbazaar-mac-system-tray.png';
+  let osTrayIcon = 'openbazaar-system-tray.png';
+  if (process.platform === 'darwin') osTrayIcon = 'openbazaar-mac-system-tray.png';
 
   trayMenu = new Tray(`${__dirname}/imgs/${osTrayIcon}`);
 
@@ -455,7 +462,7 @@ function createWindow() {
     center: true,
     title: 'OpenBazaar',
     frame: false,
-    icon: 'imgs/openbazaar-icon.png',
+    icon: `${__dirname}/imgs/icon.png`,
   });
 
   // and load the index.html of the app.

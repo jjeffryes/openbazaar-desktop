@@ -11,16 +11,6 @@ const defaultSearchProviders = [
     locked: true,
   },
   {
-    id: 'duo',
-    name: 'Duo',
-    logo: '../imgs/duoSearchLogo.png',
-    search: '',
-    listings: 'https://ob2.duosear.ch/search/listings',
-    torsearch: '',
-    torlistings: '',
-    locked: true,
-  },
-  {
     id: 'rawflood',
     name: 'Raw Flood',
     logo: '../imgs/rawFloodLogo.png',
@@ -28,6 +18,16 @@ const defaultSearchProviders = [
     listings: 'https://search.rawflood.com/ob/search/listings',
     torsearch: '',
     torlistings: '',
+    locked: true,
+  },
+  {
+    id: 'blockbooth',
+    name: 'Block Booth',
+    logo: '../imgs/blockboothLogo.png',
+    search: '',
+    listings: 'https://search.blockbooth.com/api/',
+    torsearch: 'http://vnjzhvm5gkctyldn.onion/api/',
+    torlistings: 'http://vnjzhvm5gkctyldn.onion/api/',
     locked: true,
   },
 ];
