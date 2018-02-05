@@ -84,7 +84,6 @@ if (handleStartupEvent()) {
   console.log('OpenBazaar started on Windows...');
 }
 
-
 const serverPath = `${__dirname}${path.sep}..${path.sep}openbazaar-go${path.sep}`;
 const serverFilename = process.platform === 'darwin' || process.platform === 'linux' ?
   'openbazaard' : 'openbazaard.exe';
@@ -94,6 +93,7 @@ let localServer;
 
 if (isBundledApp) {
   global.localServer = localServer = new LocalServer({
+    getMainWindow: () => mainWindow,
     serverPath,
     serverFilename,
     errorLogPath: `${__dirname}${path.sep}..${path.sep}..${path.sep}error.log`,
@@ -627,7 +627,7 @@ ipcMain.on('active-server-set', (e, server) => {
         `Basic ${new Buffer(`${un}:${pw}`).toString('base64')}`;
     }
 
-    if (global.authCookie && server.default) {
+    if (global.authCookie && server.builtIn) {
       details.requestHeaders.Cookie = `OpenBazaar_Auth_Cookie=${global.authCookie}`;
     }
 

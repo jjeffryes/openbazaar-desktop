@@ -5,9 +5,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import app from '../app';
 import multihashes from 'multihashes';
-import bitcoreLib from 'bitcore-lib';
 import twemoji from 'twemoji';
-import bech32 from 'bech32';
 
 export function getGuid(handle, resolver) {
   const deferred = $.Deferred();
@@ -129,24 +127,6 @@ export function isMultihash(_string) {
   }
 }
 
-export function isValidBitcoinAddress(address) {
-  if (typeof address !== 'string') {
-    throw new Error('Please provide a string.');
-  }
-
-  try {
-    bitcoreLib.encoding.Base58Check.decode(address);
-    return true;
-  } catch (exc) {
-    try {
-      bech32.decode(address);
-      return true;
-    } catch (exc2) {
-      return false;
-    }
-  }
-}
-
 // applies a template to select2 to turn text emojis into images
 export function selectEmojis(option) {
   return $(`<span class="select2ImgOpt">${twemoji.parse(option.text,
@@ -221,18 +201,4 @@ export function deparam(queryStr = '') {
   }
 
   return parsed;
-}
-
-export function getBlockChainBaseUrl(isTestnet = false) {
-  return isTestnet ?
-    'https://testnet.blockexplorer.com/' :
-    'https://blockchain.info/';
-}
-
-export function getBlockChainTxUrl(txid, isTestnet) {
-  return `${getBlockChainBaseUrl(isTestnet)}tx/${txid}`;
-}
-
-export function getBlockChainAddressUrl(address, isTestnet) {
-  return `${getBlockChainBaseUrl(isTestnet)}address/${address}`;
 }
