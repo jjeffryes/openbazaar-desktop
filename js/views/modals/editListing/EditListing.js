@@ -1,15 +1,15 @@
 import $ from 'jquery';
-import '../../../utils/velocity';
+import '../../../utils/lib/velocity';
 import '../../../lib/select2';
-import { tagsDelimiter } from '../../../utils/selectize';
+import { tagsDelimiter } from '../../../utils/lib/selectize';
 import Sortable from 'sortablejs';
 import _ from 'underscore';
 import path from 'path';
-import '../../../utils/velocityUiPack.js';
+import '../../../utils/lib/velocityUiPack.js';
 import Backbone from 'backbone';
 import app from '../../../app';
 import { isScrolledIntoView } from '../../../utils/dom';
-import { installRichEditor } from '../../../utils/trumbowyg';
+import { installRichEditor } from '../../../utils/lib/trumbowyg';
 import { getCurrenciesSortedByCode } from '../../../data/currencies';
 import { formatPrice, getCurrencyValidity } from '../../../utils/currency';
 import { setDeepValue } from '../../../utils/object';
@@ -836,7 +836,7 @@ export default class extends BaseModal {
       try {
         cur = this._origModel.unparsedResponse.listing.metadata.pricingCurrency;
       } catch (e) {
-        return;
+        return this;
       }
 
       if (getCurrencyValidity(cur) === 'UNRECOGNIZED_CURRENCY') {
@@ -854,6 +854,7 @@ export default class extends BaseModal {
         });
       }
     }
+    return this;
   }
 
   get trackInventoryBy() {

@@ -1,6 +1,6 @@
 import app from '../../../../app';
 import { clipboard } from 'electron';
-import '../../../../utils/velocity';
+import '../../../../utils/lib/velocity';
 import loadTemplate from '../../../../utils/loadTemplate';
 import { getSocket } from '../../../../utils/serverConnect';
 import { getServerCurrency } from '../../../../data/cryptoCurrencies';
@@ -72,11 +72,8 @@ export default class extends BaseVw {
         const acceptedState = {
           showFulfillButton: false,
           infoText: app.polyglot.t('orderDetail.summaryTab.accepted.vendorReceived'),
+          showRefundButton: false,
         };
-
-        if (state !== 'DISPUTED') {
-          acceptedState.showRefundButton = false;
-        }
 
         this.accepted.setState(acceptedState);
       }
@@ -468,7 +465,6 @@ export default class extends BaseVw {
       showRefundButton: isVendor && [
         'AWAITING_FULFILLMENT',
         'PARTIALLY_FULFILLED',
-        'DISPUTED',
       ].indexOf(orderState) > -1,
       showFulfillButton: canFulfill,
     };
@@ -807,7 +803,8 @@ export default class extends BaseVw {
       this.$el.html(t({
         id: this.model.id,
         isCase: this.isCase(),
-        isTestnet: app.testnet,
+        isTestnet: app.serverConfig.testnet,
+        paymentAddress: this.paymentAddress,
         ...this.model.toJSON(),
       }));
       this._$copiedToClipboard = null;

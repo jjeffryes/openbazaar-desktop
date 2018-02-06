@@ -67,7 +67,6 @@ export default class extends BaseVw {
   set balanceRemaining(amount) {
     if (amount !== this._balanceRemaining) {
       this._balanceRemaining = amount;
-      this.confirmWallet.render();
       this.$amountDueLine.html(this.amountDueLine);
       this.$qrCodeImg.attr('src', this.qrDataUri);
     }
@@ -138,7 +137,7 @@ export default class extends BaseVw {
   clickPayFromAlt() {
     const amount = this.balanceRemaining;
     const serverCur = getServerCurrency().code;
-    const shapeshiftURL = `https://shapeshift.io/shifty.html?destination=${this.getState().address}&output=${serverCur}&apiKey=6e9fbc30b836f85d339b84f3b60cade3f946d2d49a14207d5546895ecca60233b47ec67304cdcfa06e019231a9d135a7965ae50de0a1e68d6ec01b8e57f2b812&amount=${amount}`;
+    const shapeshiftURL = `https://shapeshift.io/shifty.html?destination=${this.paymentAddress}&output=${serverCur}&apiKey=6e9fbc30b836f85d339b84f3b60cade3f946d2d49a14207d5546895ecca60233b47ec67304cdcfa06e019231a9d135a7965ae50de0a1e68d6ec01b8e57f2b812&amount=${amount}`;
     const shapeshiftWin = new remote.BrowserWindow({ width: 700, height: 500, frame: true });
     shapeshiftWin.loadURL(shapeshiftURL);
   }
@@ -175,7 +174,8 @@ export default class extends BaseVw {
   }
 
   get qrDataUri() {
-    const btcURL = `bitcoin:${this.paymentAddress}?amount=${this.balanceRemaining}`;
+    const address = getServerCurrency().qrCodeText(this.paymentAddress);
+    const btcURL = `${address}?amount=${this.balanceRemaining}`;
     return qr(btcURL, { type: 8, size: 5, level: 'Q' });
   }
 

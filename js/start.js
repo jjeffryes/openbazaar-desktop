@@ -29,12 +29,11 @@ import Dialog from './views/modals/Dialog';
 import StatusBar from './views/StatusBar';
 import { getTranslationLangByCode } from './data/languages';
 import Profile from './models/profile/Profile';
-import Settings from './models/Settings';
+import Settings from './models/settings/Settings';
 import WalletBalance from './models/wallet/WalletBalance';
 import Followers from './collections/Followers';
 import { fetchExchangeRates } from './utils/currency';
 import './utils/exchangeRateSyncer';
-import './utils/listingData';
 import { launchDebugLogModal, launchSettingsModal } from './utils/modalManager';
 import listingDeleteHandler from './startup/listingDelete';
 import { fixLinuxZoomIssue, handleLinks, handleServerShutdownRequests } from './startup';
@@ -163,7 +162,7 @@ function fetchConfig() {
     }).on('click-retry', () => {
       retryConfigDialog.close();
 
-      // slight of hand to ensure the loading modal has a chance to at
+      // sleight of hand to ensure the loading modal has a chance to at
       // least briefly show before another potential failure
       setTimeout(() => {
         fetchConfig();
@@ -333,7 +332,7 @@ function fetchStartupData() {
           title = app.polyglot.t('startUp.dialogs.unableToGetSearchProviders.title');
         }
 
-        const retryFetchStarupDataDialog = new Dialog({
+        const retryFetchStartupDataDialog = new Dialog({
           title,
           message: jqXhr && jqXhr.responseJSON && jqXhr.responseJSON.reason || '',
           buttons: [
@@ -350,7 +349,7 @@ function fetchStartupData() {
           dismissOnEscPress: false,
           showCloseButton: false,
         }).on('click-retry', () => {
-          retryFetchStarupDataDialog.close();
+          retryFetchStartupDataDialog.close();
 
           // slight of hand to ensure the loading modal has a chance to at
           // least briefly show before another potential failure
