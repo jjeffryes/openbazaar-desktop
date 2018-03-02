@@ -435,7 +435,7 @@ export default class extends BaseModal {
       selectedVariants.push(variant);
     });
 
-    if (this.purchaseModal) this.purchaseModale.remove();
+    if (this.purchaseModal) this.purchaseModal.remove();
 
     this.purchaseModal = new Purchase({
       listing: this.model,
@@ -443,11 +443,7 @@ export default class extends BaseModal {
       vendor: this.vendor,
       removeOnClose: true,
       showCloseButton: false,
-      initialState: {
-        isFetching: true,
-        fetchError: '',
-        fetchFailed: false,
-      },
+      phase: 'pay',
     })
       .render()
       .open();
